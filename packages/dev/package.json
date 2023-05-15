@@ -1,0 +1,37 @@
+{
+  "name": "dev",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:local": "webpack serve",
+    "dev:core": "cd ../core && npm run dev",
+    "dev": "concurrently npm:dev:core npm:dev:local"
+  },
+  "author": "xingyu.hu",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.7",
+    "@types/node": "^17.0.42",
+    "@types/react": "17",
+    "@types/react-dom": "17",
+    "concurrently": "^7.2.2",
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.3.0",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.1"
+  },
+  "dependencies": {
+    "@modern-js-reduck/react": "^1.1.9",
+    "ahooks": "^3.7.6",
+    "antd": "^5.4.6",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "mockjs": "^1.1.0",
+    "react": "^17",
+    "react-dom": "^17",
+    "react-reconciler": "0.26.2",
+    "use-hook-anywhere": "workspace:*"
+  }
+}

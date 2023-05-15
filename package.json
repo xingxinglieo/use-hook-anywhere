@@ -1,0 +1,12 @@
+{
+  "name": "use-hook-anywhere",
+  "version": "0.0.1",
+  "description": "A util",
+  "author": "xingyu.hu",
+  "license": "ISC",
+  "devDependencies": {
+  },
+  "dependencies": {
+
+  }
+}
