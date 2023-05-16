@@ -59,8 +59,8 @@ export class HookExecutor<T extends AnyFun> {
   public status: 'running' | 'unmount' | 'suspend' = 'running';
   private key: string;
   private isEqual: (prev: ReturnType<T>, next: ReturnType<T>) => boolean;
-  private defaultValue: ReturnType<T> | typeof UNASSIGN = UNASSIGN;
   public readonly emitter = mitt<{ update: ReturnType<T>; umount: void }>();
+  private defaultValue: ReturnType<T> | typeof UNASSIGN = UNASSIGN;
   private _value: ReturnType<T> | typeof UNASSIGN = UNASSIGN;
   private setValue(newValue: any) {
     // 不在 running 状态不更新
@@ -79,7 +79,7 @@ export class HookExecutor<T extends AnyFun> {
   public get value() {
     if (this.noSetValue) {
       throw new Error(
-        `Possible solutions:
+        `Get \`value\` error, possible solutions:
         1. Ensure \`use()\` is before \`unmount()\` and \`suspend()\`.
         2. Configure \`defaultValue\`, because React does not support \`flushSync()\`(synch render) in your condition.
       `,
@@ -99,6 +99,7 @@ export class HookExecutor<T extends AnyFun> {
     this.key = key;
     this.isEqual = _isEqual ?? ((a, b) => a === b);
     if ('defaultValue' in config) this.defaultValue = config.defaultValue!;
+    this.resetValue();
   }
 
   public setHook<F extends AnyFun>(hook: F) {
@@ -108,8 +109,7 @@ export class HookExecutor<T extends AnyFun> {
   }
 
   public resetValue() {
-    if (this.hasDefault) this._value = this.defaultValue;
-    else this._value = UNASSIGN;
+    this._value = this.defaultValue;
   }
 
   public use(...args: Parameters<T>) {

@@ -26,11 +26,11 @@ const { data, loading } = usePagination(getUserList);
 
 # 原理
 
-自定义渲染器，将 hook 放入自定义组件树中执行。
+将 hook 放入自定义渲染器的组件树中，同步执行结果。
 
 # API
 
-### 配置项
+## 配置项
 ```ts
 {
     // jsx key，未传入自动生成
@@ -52,7 +52,7 @@ createExecutor(_usePagination,{
 });
 ```
 
-### subscribe 和 unsubscribe
+## subscribe 和 unsubscribe
 
 ```ts
 const fn = ({data, loading}) => {
@@ -80,23 +80,24 @@ import { usePagination as _usePagination } from "ahooks";
 const { data, loading } = usePagination.setHook(_usePagination)(getUserList);
 ```
 
-## 生命周期
+# 生命周期
 
-### 状态图
+## 状态图
 
 ![VZ9lQU.png](https://i.328888.xyz/2023/05/15/VZ9lQU.png)
 
-### suspend 和 resume
+括号中的状态为 hook 在组件树中的状态
+## suspend 和 resume
 
 调用 `suspend()` ，"悬停"这个 hook，**将 hook 从 react 组件树卸载**
 ```ts
 // 传入 true，则会同步卸载 hook，默认为 false
 usePagination.suspend(true);
-// 调用 suspend 后，不再更新 hook 返回值，调用返回最后设置的值
-usePagination(getUserList)
+// 调用 suspend 后，不再更新 hook 返回值
+usePagination(getUserList) // 返回最后一次结果
 ```
 
-如果你想重新挂载，可以调用 `resume()`，调用后恢复可执行状态(但此时未挂载)
+如果你想重新挂载，可以调用 `resume()`
 ```ts
 usePagination.suspend(true);
 
@@ -106,9 +107,17 @@ usePagination.resume();
 usePagination(getUserList)
 ```
 
-请注意，若 `suspend()` 和 `resume()` 在同一个事件循环中调用，react 可能合并结果而跳过卸载，无法起到重新挂载的效果 ，请改为 `suspend(true)` 同步卸载 hook 或 `remount()`
+注意，若 `suspend()` 和 `resume()` 在同一个事件循环中调用，react 可能合并结果而跳过卸载，无法起到重新挂载的效果 ，请改为 `suspend(true)` 同步卸载 hook 或 `remount()`
 
-### unmount
+## remount 
+同步 suspend 再 resume 实现重新挂载 hook
+```ts
+// remount 执行以下操作
+usePagination.suspend(true);
+usePagination.resume();
+```
+
+## unmount
 完全卸载 hook，不能再重新挂载
 ```ts
 // 传入 true 时为重置返回值，
@@ -117,13 +126,3 @@ usePagination.unmount(true);
 // 若重置返回值，调用时，返回 defaultValue（若有）或者报错
 usePagination(getUserList)
 ```
-
-### remount 
-重新挂载 hook，步骤为同步 suspend 后 resume
-```ts
-// remount 执行以下操作
-usePagination.suspend(true);
-usePagination.resume();
-```
-
-
