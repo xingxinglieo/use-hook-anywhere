@@ -4,9 +4,8 @@
   "description": "A util",
   "author": "xingyu.hu",
   "license": "ISC",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
-
+    "user": "0.0.0"
   }
 }

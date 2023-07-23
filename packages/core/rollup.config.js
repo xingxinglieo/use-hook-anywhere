@@ -1,11 +1,8 @@
-import typescript from '@rollup/plugin-typescript'
-import json from '@rollup/plugin-json'
-
+import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
 export default {
   input: './src/index.tsx',
-  plugins: [json(), typescript({
-    declaration: true
-  })],
+  plugins: [json(), typescript({ declaration: true })],
   output: [
     {
       format: 'es',
@@ -18,4 +15,4 @@ export default {
       sourcemap: false,
     },
   ],
-}
+};
