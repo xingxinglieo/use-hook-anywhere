@@ -6,7 +6,6 @@
  */
 import Reconciler from 'react-reconciler';
 import React, { createElement, useMemo } from 'react';
-const isDevelopment = process?.env?.NODE_ENV === 'development';
 
 type AnyFun = (...args: any[]) => void;
 type HookProps = {
@@ -68,7 +67,7 @@ const Hook = React.memo(function Hook(props: Omit<HookProps, 'key'>) {
   const { hook, args, onSync } = props;
   const res = hook(...args);
   onSync(res);
-  return isDevelopment ? createElement(Res, { res }) : null;
+  return createElement(Res, { res });
 });
 function HooksContainer({ hooks }: { hooks: HookProps[] }) {
   const HookWrapper = useMemo(() => (props: HookProps) => useMemo(() => <Hook {...props} />, props.args), []);
